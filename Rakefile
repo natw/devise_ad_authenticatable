@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "devise_ad_authenticatable"
   gem.homepage = "http://github.com/natw/devise_ad_authenticatable"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "Devise auth module for ActiveDirectory"
+  gem.description = "Authenticate against ActiveDirectory, respecting groups"
   gem.email = "nat.williams@gmail.com"
   gem.authors = ["Nat Williams"]
   # dependencies defined in Gemfile
@@ -29,11 +29,6 @@ require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
-end
-
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
 end
 
 task :default => :spec
