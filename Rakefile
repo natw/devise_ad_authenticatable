@@ -11,20 +11,6 @@ rescue Bundler::BundlerError => e
 end
 require 'rake'
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "devise_ad_authenticatable"
-  gem.homepage = "http://github.com/natw/devise_ad_authenticatable"
-  gem.license = "MIT"
-  gem.summary = "Devise auth module for ActiveDirectory"
-  gem.description = "Authenticate against ActiveDirectory, respecting groups"
-  gem.email = "nat.williams@gmail.com"
-  gem.authors = ["Nat Williams"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
-
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
