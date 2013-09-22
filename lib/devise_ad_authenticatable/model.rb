@@ -1,4 +1,5 @@
 require 'devise_ad_authenticatable/strategy'
+require 'simple_ad_auth'
 
 module Devise
   module Models
@@ -17,12 +18,18 @@ module Devise
         def authenticate_with_ad(attributes={})
           auth_key = self.authentication_keys.first
           auth_value = attributes[auth_key]
+          password = attributes[:password]
 
-          resource = where(auth_key => auth_value).first
-          return resource
-
-          if resource.try(:valid_ad_authentication?, attributes[:password])
-            return resource
+          SimpleADAuth.configure do |config|
+            config.host = ::Devise.ad_host
+            config.port = ::Devise.ad_port
+            config.domain = ::Devise.ad_domain
+            config.search_root = ::Devise.ad_search_root
+          end
+          if SimpleADAuth.authenticate(auth_value, password)
+            return find_or_create_by(auth_key => auth_value)
+          else
+            return nil
           end
         end
       end
