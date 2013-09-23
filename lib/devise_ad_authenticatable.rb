@@ -5,7 +5,9 @@ require 'devise_ad_authenticatable/model'
 
 
 module Devise
-  [:ad_host, :ad_port, :ad_search_root, :ad_domain].map(&:to_s).each do |attr|
+  @@ad_port = '389'
+  @@ad_required_groups = []
+  [:ad_host, :ad_port, :ad_search_root, :ad_domain, :ad_required_groups].map(&:to_s).each do |attr|
     class_eval %Q"
       def self.#{attr}
         @@#{attr}
@@ -15,7 +17,6 @@ module Devise
       end
     "
   end
-  @@ad_port = '389'
 end
 
 Devise.add_module(

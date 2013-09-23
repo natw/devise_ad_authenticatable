@@ -8,6 +8,7 @@ module Devise
 
       included do
         attr_reader :password
+        attr_accessor :ad_groups
       end
 
       def password=(new_password)
@@ -26,8 +27,12 @@ module Devise
             config.domain = ::Devise.ad_domain
             config.search_root = ::Devise.ad_search_root
           end
-          if SimpleADAuth.authenticate(auth_value, password)
-            return find_or_create_by(auth_key => auth_value)
+          ad_user = SimpleADAuth.authenticate(auth_value, password)
+          required_groups = ::Devise.ad_required_groups
+          if ad_user && (required_groups.empty? || !(required_groups & ad_user.groups).empty?)
+            resource = find_or_create_by(auth_key => auth_value)
+            resource.ad_groups = ad_user.groups
+            return resource
           else
             return nil
           end
