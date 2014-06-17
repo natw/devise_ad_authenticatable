@@ -8,7 +8,6 @@ module Devise
 
       included do
         attr_reader :password
-        attr_accessor :ad_groups
       end
 
       def password=(new_password)
@@ -31,7 +30,9 @@ module Devise
           required_groups = ::Devise.ad_required_groups
           if ad_user && (required_groups.empty? || !(required_groups & ad_user.groups).empty?)
             resource = find_or_create_by(auth_key => auth_value)
-            resource.ad_groups = ad_user.groups
+            if resource.respond_to? :set_groups!
+              resource.set_groups! ad_user.groups
+            end
             return resource
           else
             return nil
